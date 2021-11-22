@@ -1,4 +1,4 @@
-package com.j2ee.tdspring;
+package com.j2ee.tdspring.config;
 
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
