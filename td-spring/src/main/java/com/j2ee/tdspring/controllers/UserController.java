@@ -21,6 +21,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Operation(summary = "Mise à jour du mot de passe d'un utilisateur")
+	@RequestMapping(path = "/user/updatePassword", method = RequestMethod.POST)
+	public void setPassword(@RequestParam(value = "username") String userName, @RequestParam(value = "new") String newPassword)
+	{
+		userService.setPassword(userName, newPassword);
+	}
+	
 	@RequestMapping(path = "/user", method = RequestMethod.GET)
 	public User getUser(@RequestParam(value = "id") String username) {
 		return userService.getUserById(username);
@@ -36,10 +43,9 @@ public class UserController {
 		userService.createOrUpdate(user);
 	}
 
-	@Valid
 	@Operation(summary = "Création ou mise à jour d'un utilisateur")
 	@RequestMapping(path = "/user", method = RequestMethod.PUT)
-	public User addOrUpdateUser(@RequestBody User user) {
+	public User addOrUpdateUser(@Valid @RequestBody User user) {
 		userService.createOrUpdate(user);
 		return user;
 	}
@@ -55,15 +61,6 @@ public class UserController {
 	public void deleteUser(@RequestParam(value = "id") String username) {
 		User user = userService.getUserById(username);
 		userService.deleteUser(user);
-	}
-
-	@Operation(summary = "Mise à jour du mot de passe d'un utilisateur")
-	@RequestMapping(path = "/user/updatePassword", method = RequestMethod.POST)
-	public void setPassword(@RequestParam(value = "username") String userName,
-			@RequestParam(value = "old") String oldPassword, @RequestParam(value = "new") String newPassword)
-			throws IllegalAccessException 
-	{
-		userService.setPassword(userName, oldPassword, newPassword);
 	}
 
 }

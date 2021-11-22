@@ -27,15 +27,9 @@ public class SortieController {
 		return sortieService.getSortieById(id);
 	}
 	
-	@RequestMapping(path = "/add-test-sortie", method = RequestMethod.GET)
-	public void addTestSortie() {
-		Sortie sortie = new Sortie();
-	}
-	
-	@Valid
 	@Operation(summary = "Création ou mise à jour d'une sortie")
 	@RequestMapping(path = "/sortie", method = RequestMethod.PUT)
-	public Sortie addOrUpdateSortie(@RequestBody Sortie sortie) {
+	public Sortie addOrUpdateSortie(@Valid @RequestBody Sortie sortie) {
 		sortieService.createOrUpdate(sortie);
 		return sortie;
 	}

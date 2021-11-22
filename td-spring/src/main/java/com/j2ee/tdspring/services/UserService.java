@@ -23,8 +23,8 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Lazy
 	@Autowired
+	@Lazy
 	private PasswordEncoder passwordEncoder;
 
 	public User createOrUpdate(User user) {
@@ -48,27 +48,21 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = this.getUserById(username);
+		User user = getUserById(username);
 		if (user != null) {
-			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-					authorities);
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
 		}
 		throw new UsernameNotFoundException("User '" + username + "' not found or inactive");
 	}
 
-	public void setPassword(String userName, String oldPassword, String newPassword) throws IllegalAccessException {
+	public void setPassword(String userName, String newPassword) {
 		User user = this.getUserById(userName);
 		if (user != null) {
-			String encodedOldPassword = passwordEncoder.encode(oldPassword);
 			String encodedNewPassword = passwordEncoder.encode(newPassword);
-			if (StringUtils.isEmpty(user.getPassword()) || StringUtils.equals(user.getPassword(), encodedOldPassword)) {
-				user.setPassword(encodedNewPassword);
-				userRepository.save(user);
-			} else {
-				throw new IllegalAccessException("Invalid old password");
-			}
+			user.setPassword(encodedNewPassword);
+			userRepository.save(user);
 		}
 	}
 }
