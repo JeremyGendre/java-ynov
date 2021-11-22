@@ -1,5 +1,7 @@
 package com.j2ee.tdspring.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,7 @@ public class SortieController {
 		Sortie sortie = new Sortie();
 	}
 	
+	@Valid
 	@Operation(summary = "Création ou mise à jour d'une sortie")
 	@RequestMapping(path = "/sortie", method = RequestMethod.PUT)
 	public Sortie addOrUpdateSortie(@RequestBody Sortie sortie) {

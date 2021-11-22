@@ -2,6 +2,8 @@ package com.j2ee.tdspring.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,7 @@ public class UserController {
 		userService.createOrUpdate(user);
 	}
 
+	@Valid
 	@Operation(summary = "Création ou mise à jour d'un utilisateur")
 	@RequestMapping(path = "/user", method = RequestMethod.PUT)
 	public User addOrUpdateUser(@RequestBody User user) {
@@ -52,6 +55,15 @@ public class UserController {
 	public void deleteUser(@RequestParam(value = "id") String username) {
 		User user = userService.getUserById(username);
 		userService.deleteUser(user);
+	}
+
+	@Operation(summary = "Mise à jour du mot de passe d'un utilisateur")
+	@RequestMapping(path = "/user/updatePassword", method = RequestMethod.POST)
+	public void setPassword(@RequestParam(value = "username") String userName,
+			@RequestParam(value = "old") String oldPassword, @RequestParam(value = "new") String newPassword)
+			throws IllegalAccessException 
+	{
+		userService.setPassword(userName, oldPassword, newPassword);
 	}
 
 }

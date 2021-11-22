@@ -8,24 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
 public class User {
+	
 	@Id
 	@Column(name = "username")
+	@NotNull
 	private String username;
 	
 	@Column(name = "firstname")
+	@NotNull
 	private String firstname;
 
 	@Column(name = "lastname")
+	@NotNull
 	private String lastname;
 	
 	@Column(name = "telephone")
 	private String telephone;
+	
+	@Column(columnDefinition = "varchar")
+	private Role role;
+	
+	@Column
+	@JsonIgnore
+	private String password;
 	
 	@ManyToMany(mappedBy = "users")
 	@JsonIgnore
@@ -78,5 +90,17 @@ public class User {
 	public String getTelephone() {
 		return telephone;
 	}
-
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 }

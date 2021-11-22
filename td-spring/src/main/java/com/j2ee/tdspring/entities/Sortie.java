@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "sorties")
@@ -23,12 +24,14 @@ public class Sortie {
 	private Long id;
 	
 	@Column
+	@NotNull
 	private String name;
 	
 	@Column
 	private String description;
 	
 	@Column
+	@NotNull
 	private Date date;
 	
 	@Column
